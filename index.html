@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản Kiểm Điểm Tình Yêu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFE4E1;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #FFF0F5;
+            border: 2px solid #FFB6C1;
+            border-radius: 15px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF69B4;
+            margin-bottom: 10px;
+        }
+
+        .instruction {
+            font-size: 14px;
+            color: #FF69B4;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 95%;
+            height: 150px;
+            border: 2px solid #FFB6C1;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #FFF0F5;
+            color: #333;
+            resize: none;
+        }
+
+        button {
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #FF1493;
+        }
+
+        .placeholder {
+            color: #888;
+            font-style: italic;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFF;
+            border: 2px solid #FFB6C1;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            display: none;
+            z-index: 10;
+        }
+
+        .popup .popup-message {
+            font-size: 16px;
+            color: #FF69B4;
+            margin-bottom: 20px;
+        }
+
+        .popup button {
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #FF1493;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            transform: rotate(45deg);
+            animation: fall 5s infinite;
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                left: calc(50% - 10px);
+                opacity: 1;
+            }
+            100% {
+                top: 110%;
+                left: calc(50% - 10px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Bản Kiểm Điểm</div>
+        <div class="instruction">Hãy thành thật viết ra những điều bạn đã làm chưa tốt 😢</div>
+        <textarea id="feedback" placeholder="Viết kiểm điểm của bạn ở đây..."></textarea>
+        <div class="buttons">
+            <button onclick="submitFeedback()">Lưu Kiểm Điểm</button>
+            <button onclick="showLovePopup()">Tỏ Tình ❤️</button>
+        </div>
+        <div id="message" class="placeholder"></div>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-message" id="popupMessage">Em là cả bầu trời của anh! 💖</div>
+        <button onclick="closePopup()">Đóng</button>
+    </div>
+
+    <audio id="loveSong" src="https://www.example.com/love-song.mp3"></audio>
+
+    <script>
+        function submitFeedback() {
+            console.log("submitFeedback function triggered");
+            const feedback = document.getElementById('feedback').value.trim();
+            console.log("Feedback content:", feedback);
+            const message = document.getElementById('message');
+
+            if (feedback) {
+                localStorage.setItem('loveFeedback', feedback);
+                console.log("Feedback is valid and saved to localStorage");
+                message.textContent = "Kiểm điểm đã được lưu! Bạn có muốn viết thêm không?";
+                document.getElementById('feedback').value = "";
+            } else {
+                console.log("Feedback is empty, prompting user to enter content");
+                message.textContent = "Bạn chưa viết gì cả! 😅";
+            }
+            console.log("submitFeedback function execution completed");
+        }
+
+        function showLovePopup() {
+            const loveMessages = [
+                "Em là cả bầu trời của anh! 💖",
+                "Anh yêu em nhiều hơn cả thế giới này! 😘",
+                "Không có em, cuộc đời anh như thiếu ánh sáng! 🌟",
+                "Em chính là điều tuyệt vời nhất anh từng có! 🥰",
+                "Mỗi ngày có em là một ngày hạnh phúc! 🌹"
+            ];
+
+            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            const popup = document.getElementById('popup');
+            const popupMessage = document.getElementById('popupMessage');
+            const loveSong = document.getElementById('loveSong');
+
+            popupMessage.textContent = randomMessage;
+            popup.style.display = 'block';
+            loveSong.play();
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            const loveSong = document.getElementById('loveSong');
+
+            popup.style.display = 'none';
+            loveSong.pause();
+            loveSong.currentTime = 0;
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
